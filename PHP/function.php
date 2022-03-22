@@ -27,7 +27,7 @@
         global $conn;
         $query = "SELECT * FROM users WHERE Mail = '".$mail."'";
         $result = $conn->query($query);
-        if ($result){
+        if (mysqli_num_rows($result) > 0) {
             return (true);
         }else {
             return(false);
@@ -70,6 +70,44 @@
         }
         return array($send, $created, $error);
     }
+
+    function LogIn(){
+        global $conn, $mail, $userID;
+
+        $error = NULL; 
+        $loginSuccessful = false;
+        $loginAttempted = false;
+
+        if(isset($_POST["mail"]) && isset($_POST["password"])){
+            $mail = SecurizeString_ForSQL($_POST["mail"]);
+            $password = md5($_POST["password"]);
+            $loginAttempted = true;
+        }
+        //Données via le cookie?
+        elseif ( isset( $_COOKIE["mail"] ) && isset( $_COOKIE["password"] ) ) {
+            $mail = $_COOKIE["mail"];
+            $password = $_COOKIE["password"];
+            $loginAttempted = true;
+        }
+
+        if($loginAttempted){
+            $query = "SELECT * FROM user WHERE mail = '".$mail."' AND password ='".$password."'";
+            $result = $conn->query($query);
+
+            if ( $result ){
+                $row = $result->fetch_assoc();
+                $userID = $row["ID"];
+                CreateLoginCookie($mail, $password);
+                $loginSuccessful = true;
+            }
+            else {
+                $error = "Ce compte n'existe pas.";
+            }
+            return(array())
+        }
+
+    }
+
     function SecurizeString_ForSQL($string) {
         $string = trim($string);
         $string = stripcslashes($string);
