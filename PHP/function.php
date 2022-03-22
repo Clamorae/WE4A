@@ -9,7 +9,7 @@
         $conn = new mysqli($servername, $username, $password, $dbname);
 
         if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+            die("Connection failed: " . $conn->connect_error);
         }
     }
     function DisconnectDatabase(){
@@ -23,10 +23,20 @@
         return ($find1 !== false && $find2 !== false && $find2 > $find1);
     }
 
+    function UsersExists($mail) {
+        global $conn;
+        $query = "SELECT * FROM users WHERE Mail = '".$mail."'";
+        $result = $conn->query($query);
+        if ($result){
+            return (true);
+        }else {
+            return(false);
+        }
+    }
+
     function Signin(){
         global $conn;
 
-        $exist = false;
         $send = false;
         $created = false;
         $error = NULL;
@@ -37,17 +47,15 @@
             if (md5($_POST["password"])!=md5($_POST["confirm"])){
                 $error ="Les mots de passes doivent correspondre.";
             }else if(!$check){
-                $error = "Cette adresse mail ets déjà utilisé.";
+                $error = "Adresse mail invalide.";
             }else{
                 $username = SecurizeString_ForSQL($_POST["name"]);
                 $mail = SecurizeString_ForSQL($_POST["mail"]);
                 $password = md5($_POST["password"]);
-                $query = "SELECT * FROM users WHERE Mail = '".$mail."'";
-                $result = $conn->query($query);
-                if (!$result){
-                    echo "un compte avec cette adresse mail existe déjà!";
+                if (UsersExists($mail)){
+                    $error = "un compte avec cette adresse mail existe déjà!";
                 }else{
-                    $query = "INSERT INTO `users` VALUES (NULL, '$username', '$mail', '$password' )";
+                    $query = "INSERT INTO `users` VALUES (NULL, '$username', '$mail', '$password', false)";
                     echo $query."<br>";
                     $result = $conn->query($query);
                     if( mysqli_affected_rows($conn) == 0 )
