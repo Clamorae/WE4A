@@ -36,7 +36,6 @@ CREATE TABLE `users` (
 
 CREATE TABLE `post`(
   `ID` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `title` varchar(64) COLLATE utf8_bin NOT NULL,
   `content`varchar(255) COLLATE utf8_bin NOT NULL,
   `owner` int(11) unsigned NOT NULL

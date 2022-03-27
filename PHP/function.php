@@ -64,6 +64,7 @@
                     }
                     else{
                         $created = true;
+                        CreateLoginCookie($mail, $password);
                     }
                 }
             }
@@ -103,11 +104,44 @@
             }
             return(array($loginSuccessful, $error,$userID));
         }
+    }
+
+   function CreatePost(){
+        global $conn, $userID;
+
+        $error = NULL; 
+        $creationSuccessful = false;
+
+        if(isset($_POST["titre"]) && isset($_POST["text"])){
+            $titre = SecurizeString_ForSQL($_POST["titre"]);
+            $text = SecurizeString_ForSQL($_POST["text"]);
+            $creationAttempted = true;
+        }else{
+            $creationAttempted = false;
+            $error = "veuillez remplir les champs";
+        }
+
+        if($creationAttempted){
+            $query = "SELECT `ID` FROM users WHERE mail = '".$_COOKIE["mail"]."'";
+            $result = $conn->query($query);
+            if ( $result ){
+                $error = "aled";
+                $row = $result->fetch_assoc();
+                $userID = $row["ID"];
+                //ANCHOR add date creation
+                $query = "INSERT INTO `post` VALUES (NULL,'$titre', '$text', '$userID')";;
+                $result = $conn->query($query);
+                $creationSuccessful = true;
+            }else {
+                $error = "Vous n'etes pas connecté";
+            }
+            return(array($creationSuccessful, $error,$userID));
+        }
 
     }
 
-    function CreateLoginCookie($username, $encryptedPasswd){
-        setcookie("name", $username, time() + 24*3600 );
+    function CreateLoginCookie($mail, $encryptedPasswd){
+        setcookie("mail", $mail, time() + 24*3600 );
         setcookie("password", $encryptedPasswd, time() + 24*3600);
     }
 

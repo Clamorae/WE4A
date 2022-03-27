@@ -2,7 +2,7 @@
 	
     <div class="formbutton"><h2>Connectez-vous</h2></div>
     <div>
-        <label for="name">entrez votre adresse mail :</label>
+        <label for="mail">entrez votre adresse mail :</label>
         <input autofocus type="text" id="mail" name="mail">
     </div>
     <div>
