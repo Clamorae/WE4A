@@ -8,11 +8,12 @@
 
 <h1>Se connecter</h1>
 <?php
-    if($logged[1]){
-        echo '<h3 class="successMessage">Nouveau compte crée avec succès!</h3>';
+    if($logged[0]){
+        echo '<h3 class="successMessage">Bon retour parmi nous</h3>';
     }
-    elseif ($logged[0]){
-        echo '<h3 class="errorMessage">'.$created[2].'</h3>';
+    else{
+        echo '<h3 class="errorMessage">'.$logged[1].'</h3>';
+        include("../PHP/login.php");
         echo '<h3> <a href="./new_user.php"> créez vous un compte</a> </h3>';
     }
 ?>

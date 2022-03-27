@@ -3,7 +3,6 @@
     ConnectDatabase();
     $created = SignIn();
     include("../PHP/header.php");
-
 ?>
 
 <h1>Création d'un nouveau compte</h1>
