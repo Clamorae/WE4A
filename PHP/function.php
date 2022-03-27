@@ -55,8 +55,7 @@
                 if (UsersExists($mail)){
                     $error = "un compte avec cette adresse mail existe déjà!";
                 }else{
-                    $query = "INSERT INTO `users` VALUES (NULL, '$username', '$mail', '$password', false)";
-                    echo $query."<br>";
+                    $query = "INSERT INTO users(Pseudo, Mail, password,root) VALUES ('$username', '$mail', '$password', false)";
                     $result = $conn->query($query);
                     if( mysqli_affected_rows($conn) == 0 )
                     {
@@ -102,7 +101,7 @@
             }else {
                 $error = "Ce compte n'existe pas.";
             }
-            return(array($loginSuccessful, $error,$userID));
+            return(array($loginSuccessful, $error));
         }
     }
 
@@ -129,13 +128,14 @@
                 $row = $result->fetch_assoc();
                 $userID = $row["ID"];
                 //ANCHOR add date creation
-                $query = "INSERT INTO `post` VALUES (NULL,'$titre', '$text', '$userID')";;
+                $query = "INSERT INTO post(title,content,owner) VALUES ('$titre', '$text', '$userID')";
+                echo $query."<br>";
                 $result = $conn->query($query);
                 $creationSuccessful = true;
             }else {
                 $error = "Vous n'etes pas connecté";
             }
-            return(array($creationSuccessful, $error,$userID));
+            return(array($creationSuccessful, $error));
         }
 
     }
