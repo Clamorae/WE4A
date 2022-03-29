@@ -23,6 +23,14 @@
 
 <?php include("../PHP/Createpost.php"); ?>
 <hr>
+<br>
+<?php 
+    $query = "SELECT `ID` FROM users WHERE mail = '".$_COOKIE["mail"]."'";
+    $result = $conn->query($query);
+    $row = $result->fetch_assoc();
+    $userID = $row["ID"];
+    DisplayPostsPage($userID);
+?>
 <p><a href="../index.php" class="backlink"><< Revenir à l'acceuil</a><br><br></p>
 
 <?php

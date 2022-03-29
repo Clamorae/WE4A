@@ -124,12 +124,9 @@
             $query = "SELECT `ID` FROM users WHERE mail = '".$_COOKIE["mail"]."'";
             $result = $conn->query($query);
             if ( $result ){
-                $error = "aled";
                 $row = $result->fetch_assoc();
                 $userID = $row["ID"];
-                //ANCHOR add date creation
                 $query = "INSERT INTO post(title,content,owner) VALUES ('$titre', '$text', '$userID')";
-                echo $query."<br>";
                 $result = $conn->query($query);
                 $creationSuccessful = true;
             }else {
@@ -156,5 +153,70 @@
         $string = addslashes($string);
         $string = htmlspecialchars($string);
         return $string;
+    }
+
+
+    function DisplayPostsPage($ownerID){
+        global $conn;
+        $query = "SELECT `ID` FROM users WHERE mail = '".$_COOKIE["mail"]."'";
+        $result = $conn->query($query);
+        $row = $result->fetch_assoc();
+        $userID = $row["ID"];
+        $query = "SELECT * FROM `post` WHERE `owner` = ".$ownerID."";
+        $result = $conn->query($query);
+        if( mysqli_num_rows($result) != 0 ){
+    
+            if ($ownerID===$userID){
+            ?>
+    
+            <form action="editPost.php" method="POST">
+                <input type="hidden" name="newPost" value="1">
+                <button type="submit">Ajouter un nouveau post!</button>
+            </form>
+    
+            <?php    
+            }
+    
+            while( $row = $result->fetch_assoc() ){
+    
+                //$timestamp = strtotime($row["date_lastedit"]);
+                echo '
+                <div class="blogPost">
+                    <div class="postTitle">';
+    
+                if ($ownerID===$userID){
+    
+                    echo '
+                    <div class="postModify">
+                        <form action="editPost.php" method="GET">
+                            <input type="hidden" name="postID" value="'.$row["ID"].'">
+                            <button type="submit">Modifier/effacer</button>
+                        </form>
+                    </div>';
+                }
+                else {
+                    echo '
+                    <div class="postAuthor">par '.$ownerID.'</div>
+                    ';
+                }
+    
+                /*echo '
+                    <h3>•'.$row["title"].'</h3>
+                    <p>dernière modification le '.date("d/m/y à h:i:s", $timestamp ).'
+                </div>
+                ';*/
+    
+               
+    
+                echo'
+                <p class="postContent">'.$row["content"].'</p>
+                </div>
+                ';
+            }
+        }
+        else {
+            echo '
+            <p>Il n\'y a pas de post dans ce blog.</p>';        
+        }
     }
 ?>
