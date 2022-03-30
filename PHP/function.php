@@ -2,6 +2,7 @@
 //TODO add css
 //TODO add js
 //TODO add root
+//TODO add friend
 
     function ConnectDatabase(){
         $servername = "localhost";
@@ -180,6 +181,13 @@
 
     }
 
+    function Root($userID){
+        global $conn;
+        $query = "SELECT root FROM users WHERE ID = '".$userID."'";
+        $result = $conn->query($query);
+        $row = $result->fetch_assoc();
+        return($row["root"]);
+    }
 
     function DisplayPostsPage($ownerID){
         //TODO add modify/delete
@@ -191,12 +199,13 @@
             $result = $conn->query($query);
             $row = $result->fetch_assoc();
             $userID = $row["ID"];
+            $isRoot = Root($userID);
         }
         $query = "SELECT * FROM `post` WHERE `owner` = ".$ownerID."";
         $result = $conn->query($query);
         if( mysqli_num_rows($result) != 0 ){
     
-            if ($ownerID===$userID){
+            if (($ownerID===$userID)||($isRoot===1)){
             ?>
     
             <form action="editPost.php" method="POST">
