@@ -171,7 +171,6 @@
     
             <form action="editPost.php" method="POST">
                 <input type="hidden" name="newPost" value="1">
-                <button type="submit">Ajouter un nouveau post!</button>
             </form>
     
             <?php    
@@ -199,16 +198,9 @@
                     <div class="postAuthor">par '.$ownerID.'</div>
                     ';
                 }
-    
-                /*echo '
-                    <h3>•'.$row["title"].'</h3>
-                    <p>dernière modification le '.date("d/m/y à h:i:s", $timestamp ).'
-                </div>
-                ';*/
-    
-               
-    
+
                 echo'
+                <p class="postTitle">'.$row["title"].'</p>
                 <p class="postContent">'.$row["content"].'</p>
                 </div>
                 ';

@@ -1,9 +1,9 @@
 <?php
     //ANCHOR TODO when cookies are fixed
-    /*  if(!(isset( $_COOKIE["mail"] ) && isset( $_COOKIE["password"]))) {
-        header("Location:index.php");
+    if(!(isset( $_COOKIE["mail"] ) && isset( $_COOKIE["password"]))) {
+        header("Location:../index.php");
         exit();
-    }       */
+    }       
 
     include("../PHP/function.php");
     ConnectDatabase();
