@@ -1,4 +1,8 @@
 <?php
+//TODO add css
+//TODO add js
+//TODO add root
+
     function ConnectDatabase(){
         $servername = "localhost";
         $username = "root";
@@ -165,7 +169,10 @@
             $row = $result->fetch_assoc();
             $ID = $row["ID"];
             if ($ID!=NULL){
-                return array($ID,Null);
+                //TODO display all profil
+                //while( $row = $result->fetch_assoc()){
+                    DisplayPostsPage($row["ID"]);
+                //}  
             }else{
                 return array(NULL,"Cet utilisateur n'existe pas");
             }
@@ -175,11 +182,16 @@
 
 
     function DisplayPostsPage($ownerID){
+        //TODO add modify/delete
         global $conn;
-        $query = "SELECT ID FROM users WHERE mail = '".$_COOKIE["mail"]."'";
-        $result = $conn->query($query);
-        $row = $result->fetch_assoc();
-        $userID = $row["ID"];
+        if(!(isset( $_COOKIE["mail"] ))){
+            $userID=0;
+        }else{
+            $query = "SELECT ID FROM users WHERE mail = '".$_COOKIE["mail"]."'";
+            $result = $conn->query($query);
+            $row = $result->fetch_assoc();
+            $userID = $row["ID"];
+        }
         $query = "SELECT * FROM `post` WHERE `owner` = ".$ownerID."";
         $result = $conn->query($query);
         if( mysqli_num_rows($result) != 0 ){
@@ -212,8 +224,12 @@
                     </div>';
                 }
                 else {
+                    //TODO change this to get a pseudo instead of the ID
+                    /*$query2 = "SELECT * FROM users WHERE ID = '".$ownerID."'";
+                    $result2 = $conn->query($query);
+                    $row2 = $result->fetch_assoc();*/
                     echo '
-                    <div class="postAuthor">par '.$ownerID.'</div>
+                    <div class="postAuthor">par '.$row["ID"].'</div>
                     ';
                 }
 

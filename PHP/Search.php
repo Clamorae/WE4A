@@ -1,13 +1,13 @@
 <?php
     include("./function.php");
     ConnectDatabase();
-    $account=SearchUser();
     include("./header.php");
+    $account=SearchUser();
 ?> 
 
 <?php
     if($account[0]){
-        DisplayPostsPage($account[0]);
+        include("../PHP/SearchBar.php");
     }
     else{
         echo '<h3 class="errorMessage">'.$account[1].'</h3>';
