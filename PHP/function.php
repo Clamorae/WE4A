@@ -224,12 +224,11 @@
                     </div>';
                 }
                 else {
-                    //TODO change this to get a pseudo instead of the ID
-                    /*$query2 = "SELECT * FROM users WHERE ID = '".$ownerID."'";
-                    $result2 = $conn->query($query);
-                    $row2 = $result->fetch_assoc();*/
+                    $query2 = "SELECT * FROM users WHERE ID = '".$ownerID."'";
+                    $result2 = $conn->query($query2);
+                    $row2 = $result2->fetch_assoc();
                     echo '
-                    <div class="postAuthor">par '.$row["ID"].'</div>
+                    <div class="postAuthor">par '.$row2["Pseudo"].'</div>
                     ';
                 }
 
