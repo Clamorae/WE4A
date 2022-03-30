@@ -155,10 +155,28 @@
         return $string;
     }
 
+    function SearchUser(){
+        global $conn;
+
+        if(isset($_POST["search"])){
+            $pseudo = SecurizeString_ForSQL($_POST["search"]);
+            $query = "SELECT ID FROM users WHERE Pseudo LIKE '".$pseudo."'";
+            $result = $conn->query($query);
+            $row = $result->fetch_assoc();
+            $ID = $row["ID"];
+            if ($ID!=NULL){
+                return array($ID,Null);
+            }else{
+                return array(NULL,"Cet utilisateur n'existe pas");
+            }
+        }
+
+    }
+
 
     function DisplayPostsPage($ownerID){
         global $conn;
-        $query = "SELECT `ID` FROM users WHERE mail = '".$_COOKIE["mail"]."'";
+        $query = "SELECT ID FROM users WHERE mail = '".$_COOKIE["mail"]."'";
         $result = $conn->query($query);
         $row = $result->fetch_assoc();
         $userID = $row["ID"];
