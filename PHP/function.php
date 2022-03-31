@@ -3,6 +3,7 @@
 //TODO add js
 //TODO add root
 //TODO add friend
+//TODO add image
 
     function ConnectDatabase(){
         $servername = "localhost";
@@ -170,10 +171,12 @@
             $row = $result->fetch_assoc();
             $ID = $row["ID"];
             if ($ID!=NULL){
-                //TODO display all profil
-                //while( $row = $result->fetch_assoc()){
-                    DisplayPostsPage($row["ID"]);
-                //}  
+                while( $row = $result->fetch_assoc()){
+                    echo'
+                    <p class="postTitle">'.DisplayPostsPage($row["ID"]).'</p>
+                    ';
+                    //DisplayPostsPage($row["ID"]);
+                }  
             }else{
                 return array(NULL,"Cet utilisateur n'existe pas");
             }
