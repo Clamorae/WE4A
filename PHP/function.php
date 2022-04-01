@@ -1,6 +1,4 @@
 <?php
-//TODO Page d’accueil : me propose de découvrir les blogs d’un certain nombres d’utilisateurs choisis aléatoirement, ou de login avec un nom utilisateur. Un lien me propose également de créer un compte (cf page. Création de compte)
-//TODO l’utilisateur est ramené sur la page d’accueil.
 //TODO add css
 //TODO add pop up effacement js
 //TODO add friend (optionnal)
@@ -229,23 +227,53 @@
                 ';
     
                 if ($userID!=0 && (($isRoot===1)||($ownerID===$userID))){
-    
-                    echo '
+                    $PostID = json_encode($row['ID']);
+                    ?>
                     <div class="postModify">
                         <form action="editPost.php" method="GET">
-                            <input type="hidden" name="postID" value="'.$row["ID"].'">
+                            <input type="hidden" name="postID" value=<?php $row['ID'] ?>>
                             <button type="submit">Modifier</button>
                         </form>
-                        <form action="deletePost.php" method="GET">
-                            <input type="hidden" name="postID" value="'.$row["ID"].'">
+                        <!--<form action="deletePost.php" method="GET">
+                            <input type="hidden" name="postID" value=<?php $row["ID"]?>>
                             <button type="submit">Effacer</button>
-                        </form>
-                    </div>';
+                        </form>-->
+                        <button onclick="myFunction()">Effacer</button>
+
+                        <p id="demo"></p>
+                        <div id="result"></div>
+                        <script>
+                        function myFunction() {
+                            let Post = <?=$PostID?>;
+                            var txt;
+                            if (confirm("Etes vous sûr?!")) {
+                                txt=Post;
+                                
+
+                                
+                                fetch("./DeletePosts.php", {
+                                    method: "POST",
+                                    body: `PostID=${Post}`,
+                                })
+                                .then((response) => response.text())
+                                .then((res) => (document.getElementById("result").innerHTML = res));
+
+
+
+
+                            } else {
+                                txt = "";
+                            }
+                            document.getElementById("demo").innerHTML = txt;
+                        }
+                        </script>
+
+                    </div><?php
                 }
                 echo'
-                <p class="postTitle">'.$row["title"].'</p>
-                <p class="postContent">'.$row["content"].'</p>
-                </div>
+                    <p class="postTitle">'.$row["title"].'</p>
+                    <p class="postContent">'.$row["content"].'</p>
+                    </div>
                 ';
             }
         }
