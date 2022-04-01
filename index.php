@@ -16,6 +16,7 @@
         <a href = "./PHP/HomePage.php"> Votre profil</a>
         <?php
     }
+    SelectRandomUser();
     ?> 
 </div>
 <?php

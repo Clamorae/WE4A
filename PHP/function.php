@@ -1,5 +1,5 @@
 <?php
-//TODO Page d’accueil : me propose de découvrir les blogs d’un certain nombres d’utilisateurs choisis aléatoirement, ou de login avec un nom utilisateur. Un lien me propose également de créer un compte (cf page. Création de compte)Si l’utilisateur effectue un login réussi, il est automatiquement redirigé vers le blog dont il est le propriétaire (voir page de consultation de blog)
+//TODO Page d’accueil : me propose de découvrir les blogs d’un certain nombres d’utilisateurs choisis aléatoirement, ou de login avec un nom utilisateur. Un lien me propose également de créer un compte (cf page. Création de compte)
 //TODO l’utilisateur est ramené sur la page d’accueil.
 //TODO add css
 //TODO add pop up effacement js
@@ -208,7 +208,7 @@
         $result2 = $conn->query($query2);
         $row2 = $result2->fetch_assoc();
         if( mysqli_num_rows($result) != 0 ){
-            if (($isRoot===1)||($ownerID===$userID)){
+            if ($userID!=0 && (($isRoot===1)||($ownerID===$userID))){
             ?>
     
             <form action="editPost.php" method="POST">
@@ -228,7 +228,7 @@
                     <div class="postAuthor">par '.$row2["Pseudo"].' le '.$row["Date"].'</div>
                 ';
     
-                if (($ownerID===$userID)||($isRoot==="1")){
+                if ($userID!=0 && (($isRoot===1)||($ownerID===$userID))){
     
                     echo '
                     <div class="postModify">
@@ -261,7 +261,42 @@
         $query = "DELETE FROM post WHERE ID='".$PostID."'";
         $conn->query($query);
         header("Location:./Search.php");
-        //TODO add delete display
+        //FIXME add delete display
         exit();
+    }
+
+    function SelectRandomUser(){
+        global $conn; 
+        
+        $query = "SELECT * FROM post";
+        $result = $conn->query($query);
+        
+        if( mysqli_num_rows($result) != 0 ){
+            if( mysqli_num_rows($result) >= 10 ){
+                $more=10;
+            }else{
+                $more=0;
+            }
+
+            $query = "SELECT * FROM users ORDER BY ID DESC";
+            $result = $conn->query($query);
+            $row = $result->fetch_assoc();
+            if( mysqli_num_rows($result) != 0 ){
+                $maxRange = $row["ID"];
+                do {
+                    do {
+                        $randUser = rand(2,$maxRange);
+                        $query = "SELECT * FROM post WHERE owner='".$randUser."'";
+                        $result = $conn->query($query);
+                    }while (mysqli_num_rows($result) == 0);
+                    $row = $result->fetch_assoc();
+                    $more-=mysqli_num_rows($result);
+                    DisplayPostsPage($randUser);
+                } while ($more>0);
+                    
+            }
+        }else{
+            echo "Rien n'a encore été posté ici";
+        }
     }
 ?>

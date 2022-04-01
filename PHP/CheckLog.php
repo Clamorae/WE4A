@@ -10,6 +10,8 @@
 <?php
     if($logged[0]){
         echo '<h3 class="successMessage">Bon retour parmi nous</h3>';
+        header("Location:./HomePage.php");
+        exit();
     }
     else{
         echo '<h3 class="errorMessage">'.$logged[1].'</h3>';
