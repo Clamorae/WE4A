@@ -1,10 +1,9 @@
 <?php
 //TODO Page d’accueil : me propose de découvrir les blogs d’un certain nombres d’utilisateurs choisis aléatoirement, ou de login avec un nom utilisateur. Un lien me propose également de créer un compte (cf page. Création de compte)Si l’utilisateur effectue un login réussi, il est automatiquement redirigé vers le blog dont il est le propriétaire (voir page de consultation de blog)
 //TODO l’utilisateur est ramené sur la page d’accueil.
-//TODO une date 
 //TODO add css
 //TODO add pop up effacement js
-//TODO add friend
+//TODO add friend (optionnal)
 //TODO add image
 
     function ConnectDatabase(){
@@ -189,11 +188,6 @@
         $result = $conn->query($query);
         $row = $result->fetch_assoc();
         return($row["root"]);
-        /*if($row["root"]==1){
-            return(1);
-        }else{
-            return(0);
-        }*/
     }
 
     function DisplayPostsPage($ownerID){
@@ -227,8 +221,12 @@
             while( $row = $result->fetch_assoc() ){
     
                 echo '
-                <div class="blogPost">
-                    <div class="postTitle">';
+                    <div class="blogPost">
+                    <div class="postTitle">
+                ';
+                echo '
+                    <div class="postAuthor">par '.$row2["Pseudo"].' le '.$row["Date"].'</div>
+                ';
     
                 if (($ownerID===$userID)||($isRoot==="1")){
     
@@ -244,12 +242,6 @@
                         </form>
                     </div>';
                 }
-                else {
-                    echo '
-                    <div class="postAuthor">par '.$row2["Pseudo"].'</div>
-                    ';
-                }
-
                 echo'
                 <p class="postTitle">'.$row["title"].'</p>
                 <p class="postContent">'.$row["content"].'</p>
