@@ -188,10 +188,9 @@
         $row = $result->fetch_assoc();
         $isRoot = $row["root"];
         if($row["root"]==1){
-            echo $row["root"];
-            return(true);
+            return(1);
         }else{
-            return(false);
+            return(0);
         }
     }
 
@@ -205,7 +204,7 @@
             $result = $conn->query($query);
             $row = $result->fetch_assoc();
             $userID = $row["ID"];
-            $isRoot = Root($userID);
+            $isRoot = strval(Root($userID));
         }
         $query = "SELECT * FROM `post` WHERE `owner` = ".$ownerID."";
         $result = $conn->query($query);
@@ -213,8 +212,8 @@
         $result2 = $conn->query($query2);
         $row2 = $result2->fetch_assoc();
         if( mysqli_num_rows($result) != 0 ){
-            echo $isRoot;
-            if (($ownerID===$userID) OR ($isRoot==true)){
+            echo $isRoot.'test <br>';
+            if (($ownerID===$userID)||($isRoot==="1")){
             ?>
     
             <form action="editPost.php" method="POST">
@@ -230,7 +229,7 @@
                 <div class="blogPost">
                     <div class="postTitle">';
     
-                if ($ownerID===$userID){
+                if (($ownerID===$userID)||($isRoot==="1")){
     
                     echo '
                     <div class="postModify">
