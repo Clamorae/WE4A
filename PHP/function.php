@@ -186,7 +186,13 @@
         $query = "SELECT * FROM users WHERE ID = '".$userID."'";
         $result = $conn->query($query);
         $row = $result->fetch_assoc();
-        return($row["root"]);
+        $isRoot = $row["root"];
+        if($row["root"]==1){
+            echo $row["root"];
+            return(true);
+        }else{
+            return(false);
+        }
     }
 
     function DisplayPostsPage($ownerID){
@@ -203,9 +209,12 @@
         }
         $query = "SELECT * FROM `post` WHERE `owner` = ".$ownerID."";
         $result = $conn->query($query);
+        $query2 = "SELECT * FROM users WHERE ID = '".$ownerID."'";
+        $result2 = $conn->query($query2);
+        $row2 = $result2->fetch_assoc();
         if( mysqli_num_rows($result) != 0 ){
-    
-            if (($ownerID===$userID)||($isRoot===1)){
+            echo $isRoot;
+            if (($ownerID===$userID) OR ($isRoot==true)){
             ?>
     
             <form action="editPost.php" method="POST">
@@ -232,9 +241,6 @@
                     </div>';
                 }
                 else {
-                    $query2 = "SELECT * FROM users WHERE ID = '".$ownerID."'";
-                    $result2 = $conn->query($query2);
-                    $row2 = $result2->fetch_assoc();
                     echo '
                     <div class="postAuthor">par '.$row2["Pseudo"].'</div>
                     ';
@@ -249,7 +255,7 @@
         }
         else {
             echo '
-            <p>Il n\'y a pas de post dans ce blog.</p>';        
+            <p>Il n\'y a pas de post dans le blog de '.$row2["Pseudo"].'.</p>';        
         }
     }
 ?>
