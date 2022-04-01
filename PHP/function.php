@@ -171,12 +171,9 @@
             $row = $result->fetch_assoc();
             $ID = $row["ID"];
             if ($ID!=NULL){
-                while( $row = $result->fetch_assoc()){
-                    echo'
-                    <p class="postTitle">'.DisplayPostsPage($row["ID"]).'</p>
-                    ';
-                    //DisplayPostsPage($row["ID"]);
-                }  
+                do{
+                    DisplayPostsPage($row["ID"]);
+                }while( $row = $result->fetch_assoc());  
             }else{
                 return array(NULL,"Cet utilisateur n'existe pas");
             }
@@ -186,7 +183,7 @@
 
     function Root($userID){
         global $conn;
-        $query = "SELECT root FROM users WHERE ID = '".$userID."'";
+        $query = "SELECT * FROM users WHERE ID = '".$userID."'";
         $result = $conn->query($query);
         $row = $result->fetch_assoc();
         return($row["root"]);
@@ -220,7 +217,6 @@
     
             while( $row = $result->fetch_assoc() ){
     
-                //$timestamp = strtotime($row["date_lastedit"]);
                 echo '
                 <div class="blogPost">
                     <div class="postTitle">';
