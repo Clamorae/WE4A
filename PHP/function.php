@@ -1,7 +1,9 @@
 <?php
+//TODO Page d’accueil : me propose de découvrir les blogs d’un certain nombres d’utilisateurs choisis aléatoirement, ou de login avec un nom utilisateur. Un lien me propose également de créer un compte (cf page. Création de compte)Si l’utilisateur effectue un login réussi, il est automatiquement redirigé vers le blog dont il est le propriétaire (voir page de consultation de blog)
+//TODO l’utilisateur est ramené sur la page d’accueil.
+//TODO une date 
 //TODO add css
-//TODO add js
-//TODO add root
+//TODO add pop up effacement js
 //TODO add friend
 //TODO add image
 
@@ -186,16 +188,16 @@
         $query = "SELECT * FROM users WHERE ID = '".$userID."'";
         $result = $conn->query($query);
         $row = $result->fetch_assoc();
-        $isRoot = $row["root"];
-        if($row["root"]==1){
+        return($row["root"]);
+        /*if($row["root"]==1){
             return(1);
         }else{
             return(0);
-        }
+        }*/
     }
 
     function DisplayPostsPage($ownerID){
-        //TODO add modify/delete
+        //TODO add modify
         global $conn;
         if(!(isset( $_COOKIE["mail"] ))){
             $userID=0;
@@ -204,7 +206,7 @@
             $result = $conn->query($query);
             $row = $result->fetch_assoc();
             $userID = $row["ID"];
-            $isRoot = strval(Root($userID));
+            $isRoot = Root($userID);
         }
         $query = "SELECT * FROM `post` WHERE `owner` = ".$ownerID."";
         $result = $conn->query($query);
@@ -212,8 +214,7 @@
         $result2 = $conn->query($query2);
         $row2 = $result2->fetch_assoc();
         if( mysqli_num_rows($result) != 0 ){
-            echo $isRoot.'test <br>';
-            if (($ownerID===$userID)||($isRoot==="1")){
+            if (($isRoot===1)||($ownerID===$userID)){
             ?>
     
             <form action="editPost.php" method="POST">
@@ -235,7 +236,11 @@
                     <div class="postModify">
                         <form action="editPost.php" method="GET">
                             <input type="hidden" name="postID" value="'.$row["ID"].'">
-                            <button type="submit">Modifier/effacer</button>
+                            <button type="submit">Modifier</button>
+                        </form>
+                        <form action="deletePost.php" method="GET">
+                            <input type="hidden" name="postID" value="'.$row["ID"].'">
+                            <button type="submit">Effacer</button>
                         </form>
                     </div>';
                 }
@@ -256,5 +261,15 @@
             echo '
             <p>Il n\'y a pas de post dans le blog de '.$row2["Pseudo"].'.</p>';        
         }
+    }
+
+    function DeletePost($PostID){
+        global $conn;
+
+        $query = "DELETE FROM post WHERE ID='".$PostID."'";
+        $conn->query($query);
+        header("Location:./Search.php");
+        //TODO add delete display
+        exit();
     }
 ?>
