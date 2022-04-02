@@ -1,6 +1,6 @@
 <?php
 //TODO add css
-//TODO add pop up effacement js
+//FIXME add pop up effacement js (nique ta mere) coookie?????????????????????????????????
 //TODO add friend (optionnal)
 //TODO add image to post (optionnal)
 
@@ -142,6 +142,35 @@
 
     }
 
+    function EditPost(){
+        global $conn;
+        $creationSuccessful = false;
+
+        $error = NULL;
+        if(isset($_POST["titre"]) && isset($_POST["text"])){
+            $pretitre = SecurizeString_ForSQL($_POST["titre"]);
+            $edit = "[edited]";
+            $titre = $pretitre . $edit;
+            $text = SecurizeString_ForSQL($_POST["text"]);
+            $creationAttempted = true;
+        }else{
+            $creationAttempted = false;
+            $error = "veuillez remplir les champs";
+        }
+
+        if($creationAttempted){
+            $query = "UPDATE post SET title = '".$titre."', content = '".$text."' WHERE ID = '".$_COOKIE["postID"]."'";
+            $result = $conn->query($query);
+            if ( $result ){
+                $creationSuccessful = true;
+                setcookie("postID", $_POST["postID"], time() -1,"/" );
+                header("Location:./HomePage.php");
+                exit();
+            }
+        }
+        return(array($creationSuccessful, $error));
+    }
+
     function CreateLoginCookie($mail, $encryptedPasswd){
         setcookie("mail", $mail, time() + 24*3600,"/" );
         setcookie("password", $encryptedPasswd, time() + 24*3600,"/");
@@ -189,7 +218,6 @@
     }
 
     function DisplayPostsPage($ownerID){
-        //TODO add modify
         global $conn;
         if(!(isset( $_COOKIE["mail"] ))){
             $userID=0;
@@ -200,7 +228,7 @@
             $userID = $row["ID"];
             $isRoot = Root($userID);
         }
-        $query = "SELECT * FROM `post` WHERE `owner` = ".$ownerID."";
+        $query = "SELECT * FROM post WHERE owner = ".$ownerID." ORDER BY Date DESC LIMIT 10";
         $result = $conn->query($query);
         $query2 = "SELECT * FROM users WHERE ID = '".$ownerID."'";
         $result2 = $conn->query($query2);
@@ -233,12 +261,12 @@
                         <div class="postAuthor"> </br><img src="data:image/jpeg;base64, '.base64_encode($row2['image']).'" height="120" name="image"/><br/> par '.$row2["Pseudo"].' le '.$row["Date"].'</div>
                     ';
                 }
-                    if ($userID!=0){
+                if ($userID!=0){
 
                     if (($isRoot==1)||($ownerID===$userID)){
                         ?>
                         <div class="postModify">
-                            <form action="editPost.php" method="POST">
+                            <form action="modifyPost.php" method="POST">
                                 <input type="hidden" name="postID" value=<?php echo $row['ID'] ?>>
                                 <button type="submit">Modifier</button>
                             </form>
@@ -266,7 +294,6 @@
     function DeletePost($PostID){
         global $conn;
 
-        echo $PostID;
         $query = "DELETE FROM post WHERE ID='".$PostID."'";
         $conn->query($query);
         header("Location:./HomePage.php");
