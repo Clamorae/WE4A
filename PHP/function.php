@@ -1,8 +1,8 @@
 <?php
-//TODO add css
 //FIXME add pop up effacement js (nique ta mere) coookie?????????????????????????????????
+//FIXME can access modify and delete from index
+//TODO add css
 //TODO add friend (optionnal)
-//TODO add image to post (optionnal)
 
     function ConnectDatabase(){
         $servername = "localhost";
@@ -25,7 +25,7 @@
     function CheckEmail($email) {
         $find1 = strpos($email, '@');
         $find2 = strpos($email, '.');
-        return ($find1 !== false && $find2 !== false && $find2 > $find1);
+        return ($find1 !== false && $find2 !== false);
     }
 
     function UsersExists($mail) {
@@ -264,18 +264,36 @@
                 if ($userID!=0){
 
                     if (($isRoot==1)||($ownerID===$userID)){
-                        ?>
-                        <div class="postModify">
-                            <form action="modifyPost.php" method="POST">
-                                <input type="hidden" name="postID" value=<?php echo $row['ID'] ?>>
-                                <button type="submit">Modifier</button>
-                            </form>
-                            <form action="deletePost.php" method="POST">
-                                <input type="hidden" name="postID" value=<?php echo $row["ID"]?>>
-                                <button type="submit">Effacer</button>
-                            </form>
+                        $curPageName = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);  
+                        if ($curPageName=="index.php"){
+                            ?>
+                                <div class="postModify">
+                                    <form action="./PHP/modifyPost.php" method="POST">
+                                        <input type="hidden" name="postID" value=<?php echo $row['ID'] ?>>
+                                        <button type="submit">Modifier</button>
+                                    </form>
+                                    <form action="./PHP/deletePost.php" method="POST">
+                                        <input type="hidden" name="postID" value=<?php echo $row["ID"]?>>
+                                        <button type="submit">Effacer</button>
+                                    </form>
 
-                        </div><?php
+                                </div>
+                            <?php
+                        }else{
+                            ?>
+                                <div class="postModify">
+                                    <form action="./modifyPost.php" method="POST">
+                                        <input type="hidden" name="postID" value=<?php echo $row['ID'] ?>>
+                                        <button type="submit">Modifier</button>
+                                    </form>
+                                    <form action="./deletePost.php" method="POST">
+                                        <input type="hidden" name="postID" value=<?php echo $row["ID"]?>>
+                                        <button type="submit">Effacer</button>
+                                    </form>
+
+                                </div>
+                            <?php
+                        }
                     }
                 }
                 echo'
