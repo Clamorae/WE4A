@@ -224,10 +224,16 @@
                     <div class="blogPost">
                     <div class="postTitle">
                 ';
-                echo '
-                    <div class="postAuthor">par '.$row2["Pseudo"].' le '.$row["Date"].'</div>
-                ';
-                if ($userID!=0){
+                if($row2["image"]===NULL){
+                    echo '
+                        <div class="postAuthor">par '.$row2["Pseudo"].' le '.$row["Date"].'</div>
+                    ';
+                }else{
+                    echo '
+                        <div class="postAuthor"> </br><img src="data:image/jpeg;base64, '.base64_encode($row2['image']).'" height="120" name="image"/><br/> par '.$row2["Pseudo"].' le '.$row["Date"].'</div>
+                    ';
+                }
+                    if ($userID!=0){
 
                     if (($isRoot==1)||($ownerID===$userID)){
                         ?>

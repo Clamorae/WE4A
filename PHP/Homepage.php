@@ -29,7 +29,9 @@
     if($row = $result->fetch_assoc()){
         $image_name=$row["image_name"];
         $image_content=$row["image"];
-        echo('</br><img src="data:image/jpeg;base64, '.base64_encode($row['image']).'" height="120" name="image"/><br/>');
+        if ($row["image"]!=NULL){
+            echo('</br><img src="data:image/jpeg;base64, '.base64_encode($row['image']).'" height="120" name="image"/><br/>');
+        }
     }
 ?>
 <hr>
