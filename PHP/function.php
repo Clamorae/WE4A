@@ -234,39 +234,10 @@
                             <input type="hidden" name="postID" value=<?php $row['ID'] ?>>
                             <button type="submit">Modifier</button>
                         </form>
-                        <!--<form action="deletePost.php" method="GET">
+                        <form action="deletePost.php" method="GET">
                             <input type="hidden" name="postID" value=<?php $row["ID"]?>>
                             <button type="submit">Effacer</button>
-                        </form>-->
-                        <button onclick="myFunction()">Effacer</button>
-
-                        <p id="demo"></p>
-                        <div id="result"></div>
-                        <script>
-                        function myFunction() {
-                            let Post = <?=$PostID?>;
-                            var txt;
-                            if (confirm("Etes vous sûr?!")) {
-                                txt=Post;
-                                
-
-                                
-                                fetch("./DeletePosts.php", {
-                                    method: "POST",
-                                    body: `PostID=${Post}`,
-                                })
-                                .then((response) => response.text())
-                                .then((res) => (document.getElementById("result").innerHTML = res));
-
-
-
-
-                            } else {
-                                txt = "";
-                            }
-                            document.getElementById("demo").innerHTML = txt;
-                        }
-                        </script>
+                        </form>
 
                     </div><?php
                 }
