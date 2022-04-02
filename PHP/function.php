@@ -2,7 +2,7 @@
 //TODO add css
 //TODO add pop up effacement js
 //TODO add friend (optionnal)
-//TODO add image
+//TODO add image to post (optionnal)
 
     function ConnectDatabase(){
         $servername = "localhost";
@@ -300,5 +300,21 @@
         }else{
             echo "Rien n'a encore été posté ici";
         }
+    }
+
+    function newPic(){
+        global $conn;
+
+        $imagename=$_FILES["image"]["name"]; 
+
+        //Get the content of the image and then add slashes to it 
+        $imagetmp=addslashes (file_get_contents($_FILES['image']['tmp_name']));
+
+        //Insert the image name and image content in image_table
+        $insert_image="INSERT INTO users VALUES('$imagetmp','$imagename')";
+        $query = "UPDATE users SET image = '".$imagetmp."', image_name = '".$imagename."' WHERE mail = '".$_COOKIE["mail"]."'";
+
+        $result = $conn->query($query);
+        return ($result);
     }
 ?>

@@ -4,10 +4,10 @@
         exit();
     }       
 
-    include("../PHP/function.php");
+    include("./function.php");
     ConnectDatabase();
     $newPost = CreatePost();
-    include("../PHP/header.php");
+    include("./header.php");
 ?>
 
 <h1>Création d'un nouveau Post</h1>
@@ -20,7 +20,18 @@
     }
 ?>
 
-<?php include("../PHP/Createpost.php"); ?>
+<?php 
+    include("./Createpost.php"); 
+    $query="SELECT * from users where mail = '".$_COOKIE["mail"]."'";
+    $result = $conn->query($query);
+    
+
+    if($row = $result->fetch_assoc()){
+        $image_name=$row["image_name"];
+        $image_content=$row["image"];
+        echo('</br><img src="data:image/jpeg;base64, '.base64_encode($row['image']).'" height="120" name="image"/><br/>');
+    }
+?>
 <hr>
 <br>
 <?php 
@@ -33,6 +44,6 @@
 <p><a href="../index.php" class="backlink"><< Revenir à l'acceuil</a><br><br></p>
 
 <?php
-	include("../PHP/footer.php");
+	include("./footer.php");
 	DisconnectDatabase();
 ?> 
