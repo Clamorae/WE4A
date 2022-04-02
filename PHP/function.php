@@ -227,15 +227,14 @@
                 ';
     
                 if ($userID!=0 && (($isRoot===1)||($ownerID===$userID))){
-                    $PostID = json_encode($row['ID']);
                     ?>
                     <div class="postModify">
                         <form action="editPost.php" method="GET">
                             <input type="hidden" name="postID" value=<?php $row['ID'] ?>>
                             <button type="submit">Modifier</button>
                         </form>
-                        <form action="deletePost.php" method="GET">
-                            <input type="hidden" name="postID" value=<?php $row["ID"]?>>
+                        <form action="deletePost.php" method="POST">
+                            <input type="hidden" name="postID" value=<?php echo $row["ID"]?>>
                             <button type="submit">Effacer</button>
                         </form>
 
@@ -257,10 +256,10 @@
     function DeletePost($PostID){
         global $conn;
 
+        echo $PostID;
         $query = "DELETE FROM post WHERE ID='".$PostID."'";
         $conn->query($query);
-        header("Location:./Search.php");
-        //FIXME add delete display
+        header("Location:./HomePage.php");
         exit();
     }
 
