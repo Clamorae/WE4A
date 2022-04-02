@@ -143,8 +143,8 @@
     }
 
     function CreateLoginCookie($mail, $encryptedPasswd){
-        setcookie("mail", $mail, time() + 24*3600 );
-        setcookie("password", $encryptedPasswd, time() + 24*3600);
+        setcookie("mail", $mail, time() + 24*3600,"/" );
+        setcookie("password", $encryptedPasswd, time() + 24*3600,"/");
     }
 
     function DestroyLoginCookie(){
@@ -206,16 +206,18 @@
         $result2 = $conn->query($query2);
         $row2 = $result2->fetch_assoc();
         if( mysqli_num_rows($result) != 0 ){
-            if ($userID!=0 && (($isRoot===1)||($ownerID===$userID))){
-            ?>
-    
-            <form action="editPost.php" method="POST">
-                <input type="hidden" name="newPost" value="1">
-            </form>
-    
-            <?php    
+            if ($userID!=0){
+
+                if (($isRoot==1)||($ownerID===$userID)){
+                ?>
+        
+                <form action="editPost.php" method="POST">
+                    <input type="hidden" name="newPost" value="1">
+                </form>
+        
+                <?php    
+                }
             }
-    
             while( $row = $result->fetch_assoc() ){
     
                 echo '
@@ -225,20 +227,22 @@
                 echo '
                     <div class="postAuthor">par '.$row2["Pseudo"].' le '.$row["Date"].'</div>
                 ';
-    
-                if ($userID!=0 && (($isRoot===1)||($ownerID===$userID))){
-                    ?>
-                    <div class="postModify">
-                        <form action="editPost.php" method="GET">
-                            <input type="hidden" name="postID" value=<?php $row['ID'] ?>>
-                            <button type="submit">Modifier</button>
-                        </form>
-                        <form action="deletePost.php" method="POST">
-                            <input type="hidden" name="postID" value=<?php echo $row["ID"]?>>
-                            <button type="submit">Effacer</button>
-                        </form>
+                if ($userID!=0){
 
-                    </div><?php
+                    if (($isRoot==1)||($ownerID===$userID)){
+                        ?>
+                        <div class="postModify">
+                            <form action="editPost.php" method="POST">
+                                <input type="hidden" name="postID" value=<?php echo $row['ID'] ?>>
+                                <button type="submit">Modifier</button>
+                            </form>
+                            <form action="deletePost.php" method="POST">
+                                <input type="hidden" name="postID" value=<?php echo $row["ID"]?>>
+                                <button type="submit">Effacer</button>
+                            </form>
+
+                        </div><?php
+                    }
                 }
                 echo'
                     <p class="postTitle">'.$row["title"].'</p>
