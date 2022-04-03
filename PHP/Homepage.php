@@ -10,18 +10,9 @@
     include("./header.php");
 ?>
 
-<h1>Création d'un nouveau Post</h1>
-<?php
-    if($newPost[1]){
-        echo '<h3 class="successMessage">Nouveau post crée avec succès!'.$newPost[1].'</h3>';
-    }
-    else{
-        echo '<h3 class="errorMessage">'.$newPost[1].'</h3>';
-    }
-?>
 
-<?php 
-    include("./Createpost.php"); 
+<h1>Changer votre photo de profil</h1>
+<?php  
     $query="SELECT * from users where mail = '".$_COOKIE["mail"]."'";
     $result = $conn->query($query);
     
@@ -33,6 +24,18 @@
             echo('</br><img src="data:image/jpeg;base64, '.base64_encode($row['image']).'" height="120" name="image"/><br/>');
         }
     }
+    include("./image.php");
+?>
+
+<h1>Création d'un nouveau Post</h1>
+<?php
+    if($newPost[1]){
+        echo '<h3 class="successMessage">Nouveau post crée avec succès!'.$newPost[1].'</h3>';
+    }
+    else{
+        echo '<h3 class="errorMessage">'.$newPost[1].'</h3>';
+    }
+    include("./Createpost.php");
 ?>
 <hr>
 <br>
