@@ -5,14 +5,16 @@
 ?> 
 
 <div class="container"> 
-    <a href = "./PHP/SignIn.php"> Se créer un compte</a><br>
-    <a href = "./PHP/login.php"> Se connecter</a><br>
+    <div class="menu">
+    <div class="delete"><a href = "./PHP/SignIn.php"> Se créer un compte</a><br></div>
+    <div class="delete"><a href = "./PHP/CheckLog.php"> Se connecter</a><br></div>
     
     <?php
         if((isset( $_COOKIE['mail'] ) && isset( $_COOKIE['password']))) {
             ?> 
-            <a href = "./PHP/HomePage.php"> Votre profil</a><br>
-            <a href = "./PHP/Search.php"> Cherchez un profil</a><br>
+            <div class="delete"><a href = "./PHP/HomePage.php"> Votre profil</a><br></div>
+            <div class="delete"><a href = "./PHP/Search.php"> Cherchez un profil</a><br></div>
+            </div>
             <?php
         }
         SelectRandomUser();

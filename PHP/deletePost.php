@@ -1,8 +1,8 @@
 <?php
     include("./function.php");
     ConnectDatabase();
-    if ( isset($_POST["postID"]) ){
-        DeletePost($_POST["postID"]);
+    if ( isset($_GET["id"]) ){
+        DeletePost($_GET["id"]);
     }
     DisconnectDatabase();
 ?>

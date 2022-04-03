@@ -1,6 +1,6 @@
 <form action="./HomePage.php" method="post">
 	
-    <div class="formbutton"><h2>Créez un poste</h2></div>
+    <div class="formbutton"><h2>Créez un post</h2></div>
     <div>
         <label for="titre">entrez le titre de votre post :</label>
         <input autofocus type="text" id="titre" name="titre">

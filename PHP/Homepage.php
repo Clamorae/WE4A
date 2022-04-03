@@ -43,6 +43,7 @@
     $userID = $row["ID"];
     DisplayPostsPage($userID);
 ?>
+<p><a href="./Logout.php" class="backlink">Se déconnecter</a><br><br></p>
 <p><a href="../index.php" class="backlink"><< Revenir à l'acceuil</a><br><br></p>
 
 <?php

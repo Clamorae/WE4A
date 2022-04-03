@@ -1,0 +1,102 @@
+body{
+    background-color: rgb(0, 0, 0);
+    background-size: cover;
+    margin: auto;
+    padding: 10px;
+    text-align: center;
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-family: verdana;
+    border-radius: 20px;
+    color: white;
+}
+
+.header{
+    background-color: rgb(0, 44, 152);
+    border-radius: 25px;
+	padding: 10px 0px;
+}
+
+.footer{
+    background-color: rgb(0, 44, 152);
+    border-radius: 25px;
+}
+
+
+form{
+    border: none;
+}
+
+button{
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    border-radius: 100px;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    background-color: rgb(172, 137, 255);
+}
+
+.backlink{
+    border: none;
+    color: black;
+    padding: 2px 32px;
+    text-align: center;
+    border-radius: 100px;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    background-color: rgb(172, 137, 255);
+}
+
+.delete{
+    border: none;
+    color: black;
+    padding: 2px 32px;
+    text-align: center;
+    border-radius: 100px;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    background-color: rgb(172, 137, 255);
+}
+
+.blogPost{
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px;
+    padding: 10px 10px;
+    text-align: center;
+    display: block;
+    white-space: no wrap
+}
+
+.postContent{
+    font-size: 30px;
+}
+
+.postTitle{
+    border-radius: 15px;
+    padding: 5px 5px;
+    color: white;
+    background-color: rgb(18, 24, 117);
+    font-size: 30px;
+}
+
+.postAuthor{
+    align-items: left;
+    border: 5px solid;
+    border-color: rgb(18, 24, 117);
+    border-radius: 15px;
+    padding: 10px 10px;
+    background-color: rgb(116, 125, 255);
+}
+
+form{
+    color: white;
+}

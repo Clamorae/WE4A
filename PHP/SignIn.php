@@ -9,6 +9,8 @@
 <?php
     if($created[1]){
         echo '<h3 class="successMessage">Nouveau compte crée avec succès!</h3>';
+        header("Location:./HomePage.php");
+        exit();
     }
     elseif ($created[0]){
         echo '<h3 class="errorMessage">'.$created[2].'</h3>';

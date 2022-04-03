@@ -1,4 +1,5 @@
 <?php
+
 //FIXME add pop up effacement js (nique ta mere) coookie?????????????????????????????????
 //FIXME can access modify and delete from index
 //TODO add css
@@ -98,13 +99,14 @@
         if($loginAttempted){
             $query = "SELECT * FROM users WHERE mail = '".$mail."' AND password ='".$password."'";
             $result = $conn->query($query);
-            if ( $result ){
+            if (mysqli_num_rows($result) != 0){
                 $row = $result->fetch_assoc();
                 $userID = $row["ID"];
                 CreateLoginCookie($mail, $password);
                 $loginSuccessful = true;
             }else {
                 $error = "Ce compte n'existe pas.";
+                $loginSuccessful = false;
             }
             return(array($loginSuccessful, $error));
         }
@@ -177,8 +179,8 @@
     }
 
     function DestroyLoginCookie(){
-        setcookie("name", NULL, -1 );
-        setcookie("password", NULL, -1);
+        setcookie("name", NULL, -1,"/" );
+        setcookie("password", NULL, -1,"/");
     }
 
     function SecurizeString_ForSQL($string) {
@@ -250,7 +252,6 @@
     
                 echo '
                     <div class="blogPost">
-                    <div class="postTitle">
                 ';
                 if($row2["image"]===NULL){
                     echo '
@@ -258,49 +259,52 @@
                     ';
                 }else{
                     echo '
-                        <div class="postAuthor"> </br><img src="data:image/jpeg;base64, '.base64_encode($row2['image']).'" height="120" name="image"/><br/> par '.$row2["Pseudo"].' le '.$row["Date"].'</div>
+                        <div class="postAuthor"> </br><img src="data:image/jpeg;base64, '.base64_encode($row2['image']).'" height="220" name="image"/><br/> par '.$row2["Pseudo"].' le '.$row["Date"].'</div>
                     ';
                 }
+                
+                echo' 
+                    <div class="postTitle">
+                        <p class="postTitle">'.$row["title"].'</p>
+                    </div>
+                    <div class="postContent">
+                        <p class="postContent">'.$row["content"].'</p>
+                    </div>
+                    </div>
+                ';
                 if ($userID!=0){
 
                     if (($isRoot==1)||($ownerID===$userID)){
                         $curPageName = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);  
                         if ($curPageName=="index.php"){
                             ?>
+                                <script src='./PHP/verif.js'></script>
                                 <div class="postModify">
                                     <form action="./PHP/modifyPost.php" method="POST">
                                         <input type="hidden" name="postID" value=<?php echo $row['ID'] ?>>
-                                        <button type="submit">Modifier</button>
+                                        <button type="submit" class="button" >Modifier</button>
                                     </form>
-                                    <form action="./PHP/deletePost.php" method="POST">
-                                        <input type="hidden" name="postID" value=<?php echo $row["ID"]?>>
-                                        <button type="submit">Effacer</button>
-                                    </form>
-
+                                    <div class="delete">
+                                        <p onclick="verify(<?php echo $row['ID']?>,'./PHP/deletePost.php')">Effacer</p>
+                                    </div>
                                 </div>
                             <?php
                         }else{
                             ?>
+                                <script src='./verif.js'></script>
                                 <div class="postModify">
                                     <form action="./modifyPost.php" method="POST">
                                         <input type="hidden" name="postID" value=<?php echo $row['ID'] ?>>
                                         <button type="submit">Modifier</button>
                                     </form>
-                                    <form action="./deletePost.php" method="POST">
-                                        <input type="hidden" name="postID" value=<?php echo $row["ID"]?>>
-                                        <button type="submit">Effacer</button>
-                                    </form>
-
+                                    <div class="delete">
+                                        <p onclick="verify(<?php echo $row['ID']?>,'./deletePost.php')">Effacer</p>
+                                    </div>
                                 </div>
                             <?php
                         }
                     }
                 }
-                echo'
-                    <p class="postTitle">'.$row["title"].'</p>
-                    <p class="postContent">'.$row["content"].'</p>
-                    </div>
-                ';
             }
         }
         else {

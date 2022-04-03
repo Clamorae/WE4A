@@ -16,7 +16,7 @@
     else{
         echo '<h3 class="errorMessage">'.$logged[1].'</h3>';
         include("./login.php");
-        echo '<h3> <a href="./new_user.php"> créez vous un compte</a> </h3>';
+        echo '<h3> <a href="./SignIn.php" class="backlink"> créez vous un compte</a> </h3>';
     }
 ?>
 
