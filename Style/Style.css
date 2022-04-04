@@ -73,14 +73,17 @@ button{
     padding: 10px 10px;
     text-align: center;
     display: block;
-    white-space: no wrap
+    white-space: no wrap;
+    overflow-wrap: break-word;
 }
 
 .postContent{
     font-size: 30px;
+    overflow-wrap: break-word;
 }
 
 .postTitle{
+    overflow-wrap: break-word;
     border-radius: 15px;
     padding: 5px 5px;
     color: white;
