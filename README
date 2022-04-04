@@ -1,0 +1,18 @@
+Le jeu de donnée de base crée un fichier trop volumineux pour etre importé directement sur mysql
+Pour pallier à ce problème je vous mets ci-dessous un lien expliquant(bien mieux que moi) comment augmenter la taille maximal autorisation
+https://europeanhostingasp.net/2-ways-to-import-large-sql-files-to-mysql-database/
+
+Cependant si cette solution ne vous convient pas vous trouverez auss une autre version de la base de donnée de base de donnée dans un sous-dossier
+cette version sera sans les images et donc plus legere et simple à importer
+
+
+Autre point important:
+L'un des users du jeu de donnée est root(c'est a dire qu'il peut modifier et supprimer les post de tout le monde)
+ses logins sont a@a.a et le mdp est a
+ce n'est pas très sécurisé mais cela permet d'avoir un accès plus rapide au jeu d'essais
+le reste du jeu d'essais suit la meme logique de login mais avec le reste de l'alphabet
+par exemple 
+    b@b.b    b
+    c@c.c    c
+    d@d.d    d
+
